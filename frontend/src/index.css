@@ -12,6 +12,13 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;   /* vertical center */
+  align-items: center;       /* horizontal center */
+  height: 100%;
+}
 
 a {
   font-weight: 500;
@@ -24,6 +31,7 @@ a:hover {
 
 body {
   margin: 0;
+  height: 100%;
   display: flex;
   place-items: center;
   min-width: 320px;
