@@ -15,7 +15,7 @@ function App() {
 
 return (
   <div className="page">
-    <h1>Welcome to Talent IQ</h1>
+    <h1>Welcome to InterviewBit</h1>
 
     <SignedOut>
       <SignInButton mode="modal" />
