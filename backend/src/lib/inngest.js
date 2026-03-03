@@ -2,7 +2,10 @@ import { Inngest} from "inngest";
 import { connectDB } from "./db.js";
 import User from "../models/User.js";
  
-export const inngest = new Inngest({ id: "Talent IQ Inngest" });
+export const inngest = new Inngest({
+  id: "talent-iq",
+  signingKey: process.env.INNGEST_SIGNING_KEY,
+});
 
 const syncUser = inngest.createFunction(
     { id: "Sync User" },
@@ -20,6 +23,8 @@ const syncUser = inngest.createFunction(
         await newUser.save();
     }
 );
+// console.log("EVENT KEY:", process.env.INNGEST_EVENT_KEY);
+// console.log("SIGNING KEY:", process.env.INNGEST_SIGNING_KEY);
 
 
 const deleteUserFromDB = inngest.createFunction(

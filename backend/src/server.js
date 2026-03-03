@@ -14,7 +14,6 @@ const app = express();
 const __dirname = process.cwd();
 
 // Middleware
-
 //credential true means that the server will accept cookies from the client and also allow the client to send cookies in the request. This is necessary for authentication and maintaining user sessions across different domains (cross-origin requests). By setting credentials to true, you enable the server to handle cookies properly, which is essential for features like user login and session management.
 app.use(cors({origin:ENV.CLIENT_URL, credentials:true}));
 app.use(express.json());
