@@ -72,8 +72,7 @@
 //   }
 // }
 
-const BACKEND_API = "http://localhost:5000/api/code";
-
+const BACKEND_API = import.meta.env.VITE_API_URL + "/api/code";
 export async function executeCode(language, code) {
   try {
     const response = await fetch(`${BACKEND_API}/execute`, {
