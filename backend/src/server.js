@@ -28,10 +28,9 @@ app.use(
     origin: [
       "http://localhost:5173",
       "https://interview-platform-lemon-eight.vercel.app",
+      "https://interview-platform-git-main-sonali-kumaris-projects-1da97d4b.vercel.app"
     ],
     credentials: true,
-    methods: ["GET","POST","PUT","DELETE","OPTIONS"],
-    allowedHeaders: ["Content-Type","Authorization"],
   })
 );
 
