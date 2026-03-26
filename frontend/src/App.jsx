@@ -7,16 +7,19 @@ import DashboardPage from "./pages/DashboardPage";
 import ProblemPage from "./pages/ProblemPage";
 import ProblemsPage from "./pages/ProblemsPage";
 import SessionPage from "./pages/SessionPage";
+import useAxiosAuth from "./hooks/useAxiosAuth";
 
 function App() {
+  useAxiosAuth();
+
   useEffect(() => {
-  console.log(import.meta.env)
-}, [])
+    console.log(import.meta.env)
+  }, [])
   const { isSignedIn, isLoaded } = useUser();
 
   // this will get rid of the flickering effect
   if (!isLoaded) return null;
-   
+
   return (
     <>
       <Routes>
