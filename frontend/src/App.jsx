@@ -1,14 +1,16 @@
 import { useUser } from "@clerk/clerk-react";
 import { Navigate, Route, Routes } from "react-router";
 import HomePage from "./pages/HomePage";
-import { useEffect } from "react";
+import { use, useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 import DashboardPage from "./pages/DashboardPage";
 import ProblemPage from "./pages/ProblemPage";
 import ProblemsPage from "./pages/ProblemsPage";
 import SessionPage from "./pages/SessionPage";
+import {useAxiosAuth} from "./hooks/useAxiosAuth";
 
 function App() {
+  useAxiosAuth();
   useEffect(() => {
   console.log(import.meta.env)
 }, [])

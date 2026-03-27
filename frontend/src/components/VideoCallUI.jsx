@@ -4,7 +4,7 @@ import {
   SpeakerLayout,
   useCallStateHooks,
 } from "@stream-io/video-react-sdk";
-import { Loader2Icon, MessageSquareIcon, UsersIcon, XIcon } from "lucide-react";
+import { Loader2Icon, MessageSquareIcon, UsersIcon, XIcon, CameraIcon, MicIcon, RefreshCwIcon } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { Channel, Chat, MessageInput, MessageList, Thread, Window } from "stream-chat-react";
@@ -12,7 +12,7 @@ import { Channel, Chat, MessageInput, MessageList, Thread, Window } from "stream
 import "@stream-io/video-react-sdk/dist/css/styles.css";
 import "stream-chat-react/dist/css/v2/index.css";
 
-function VideoCallUI({ chatClient, channel }) {
+function VideoCallUI({ chatClient, channel, cameraEnabled, micEnabled, enableMedia }) {
   const navigate = useNavigate();
   const { useCallCallingState, useParticipantCount } = useCallStateHooks();
   const callingState = useCallCallingState();
@@ -57,8 +57,47 @@ function VideoCallUI({ chatClient, channel }) {
           <SpeakerLayout />
         </div>
 
-        <div className="bg-base-100 p-3 rounded-lg shadow flex justify-center">
-          <CallControls onLeave={() => navigate("/dashboard")} />
+        <div className="bg-base-100 p-3 rounded-lg shadow flex flex-col gap-2">
+          {/* Media status and retry */}
+          {(!cameraEnabled || !micEnabled) && (
+            <div className="flex items-center justify-between bg-warning/10 p-2 rounded">
+              <div className="flex items-center gap-2 text-sm">
+                <span className="text-warning">⚠️</span>
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-center gap-1">
+                    <CameraIcon className="size-4" />
+                    <span className={cameraEnabled ? 'text-success font-semibold' : 'text-error'}>
+                      Camera: {cameraEnabled ? 'On' : 'Off'}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <MicIcon className="size-4" />
+                    <span className={micEnabled ? 'text-success font-semibold' : 'text-error'}>
+                      Microphone: {micEnabled ? 'On' : 'Off'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <button
+                onClick={enableMedia}
+                className="btn btn-sm btn-warning gap-1"
+                title="Try to enable camera and microphone"
+              >
+                <RefreshCwIcon className="size-3" />
+                Retry
+              </button>
+            </div>
+          )}
+
+          {cameraEnabled && micEnabled && (
+            <div className="text-xs text-success text-center py-1">
+              ✓ Camera and microphone enabled
+            </div>
+          )}
+
+          <div className="flex justify-center">
+            <CallControls onLeave={() => navigate("/dashboard")} />
+          </div>
         </div>
       </div>
 

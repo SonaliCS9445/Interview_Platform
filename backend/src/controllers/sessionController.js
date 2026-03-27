@@ -76,7 +76,7 @@ export async function getSessionById(req, res) {
     try{
         const {id} = req.params;
         const session = await Session.findById(id)
-        .populate("host", "name profileImage email")
+        .populate("host", "name profileImage email clerkId")
         .populate("participant", "name profileImage email clerkId"); 
 
         if(!session){
@@ -98,15 +98,19 @@ export async function joinSession(req, res) {
 
         if(!session){
             return res.status(404).json({message: "Session not found"});
-        }   
+        }
 
         if(session.status !== "active"){
             return res.status(400).json({message: "Session is not active"});
         }
 
+        // Allow host to "join" their own session (they don't become a participant)
         if(session.host.toString() === userId.toString()){
-            return res.status(400).json({message: "Host cannot join their own session as participant"});
+            // Host is already part of the session, just return success
+            res.status(200).json({message: "Host joined session successfully", session});
+            return;
         }
+
         //check if session is already full
         if(session.participant) return res.status(409).json({message: "Session is already full"});
 

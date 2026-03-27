@@ -31,7 +31,7 @@ function SessionPage() {
   const isHost = session?.host?.clerkId === user?.id;
   const isParticipant = session?.participant?.clerkId === user?.id;
 
-  const { call, channel, chatClient, isInitializingCall, streamClient } = useStreamClient(
+  const { call, channel, chatClient, isInitializingCall, streamClient, cameraEnabled, micEnabled, enableMedia } = useStreamClient(
     session,
     loadingSession,
     isHost,
@@ -50,6 +50,9 @@ function SessionPage() {
   useEffect(() => {
     if (!session || !user || loadingSession) return;
     if (isHost || isParticipant) return;
+
+    // Additional check: don't join if user is the host (even if isHost is not yet determined)
+    if (session.host?.clerkId === user.id) return;
 
     joinSessionMutation.mutate(id, { onSuccess: refetch });
 
@@ -280,7 +283,13 @@ function SessionPage() {
                 <div className="h-full">
                   <StreamVideo client={streamClient}>
                     <StreamCall call={call}>
-                      <VideoCallUI chatClient={chatClient} channel={channel} />
+                      <VideoCallUI
+                        chatClient={chatClient}
+                        channel={channel}
+                        cameraEnabled={cameraEnabled}
+                        micEnabled={micEnabled}
+                        enableMedia={enableMedia}
+                      />
                     </StreamCall>
                   </StreamVideo>
                 </div>
